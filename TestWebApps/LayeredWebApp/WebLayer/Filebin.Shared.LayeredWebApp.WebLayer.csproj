@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Misc\Filebin.Shared.Misc.csproj" />
+      <ProjectReference Include="..\..\..\Exceptions\Filebin.Shared.Exceptions.csproj" />
+      <ProjectReference Include="..\PresentationLayer\Filebin.Shared.LayeredWebApp.PresentationLayer.csproj" />
+      <ProjectReference Include="..\ApplicationLayer\Filebin.Shared.LayeredWebApp.ApplicationLayer.csproj" />
+      <ProjectReference Include="..\InfrastructureLayer\Filebin.Shared.LayeredWebApp.InfrastructureLayer.csproj" />
+    </ItemGroup>
+    
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+</Project>
