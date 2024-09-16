@@ -17,7 +17,7 @@ echo "$PROJECTS" | while read proj;
 do
     directory="$(pwd)"
     cd "$proj"
-
+    current_version="$(cat Filebin.Shared.$proj.csproj | grep -oPm1 "(?<=<Version>)[^<]+")"
     dotnet nuget push \
     .build/bin/Release/Filebin.Shared.$proj.$current_version.nupkg \
     -k $NUGET_API_KEY \
