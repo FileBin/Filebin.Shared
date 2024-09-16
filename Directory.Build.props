@@ -13,10 +13,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>Filebin.$(MSBuildProjectName)</PackageId>
+    <PackageId>$(MSBuildProjectName)</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Filebin</Authors>
-    <Product>InnoClinic</Product>
+    <Product>Filebin.SharedLibs</Product>
   </PropertyGroup>
 
   <PropertyGroup>
