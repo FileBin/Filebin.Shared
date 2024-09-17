@@ -16,7 +16,7 @@ public class AuthorizeCheckOperationFilter(IConfiguration config) : IOperationFi
             operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
             operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
 
-            operation.Security = new List<OpenApiSecurityRequirement> {
+            operation.Security = [
                 new() {
                     [new OpenApiSecurityScheme {
                         Reference = new OpenApiReference {
@@ -25,7 +25,7 @@ public class AuthorizeCheckOperationFilter(IConfiguration config) : IOperationFi
                         }
                     }] = [scope]
                 }
-            };
+            ];
         }
     }
 }

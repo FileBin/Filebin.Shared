@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Filebin.Shared.Misc.Repository;
 
-public abstract class CrudRepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class, IEntity {
-    protected abstract DbSet<TEntity> GetDbSet();
+public abstract class CrudRepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class {
+    internal abstract DbSet<TEntity> GetDbSet();
 
     public void Create(TEntity entity) {
         GetDbSet().Add(entity);
@@ -14,15 +14,11 @@ public abstract class CrudRepositoryBase<TEntity> : IRepository<TEntity> where T
         GetDbSet().Remove(entity);
     }
 
-    public virtual IQueryable<TEntity> GetAll() {
-        return GetDbSet().AsNoTracking();
-    }
-
-    public Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) {
-        return GetAll().SingleOrDefaultAsync(entity => entity.Id == id, cancellationToken);
-    }
-
     public void Update(TEntity entity) {
         GetDbSet().Entry(entity).State = EntityState.Modified;
+    }
+
+    public async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken cancellationToken = default) {
+        return await GetDbSet().AsNoTracking().ToListAsync(cancellationToken);
     }
 }
