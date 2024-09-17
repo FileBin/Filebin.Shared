@@ -5,5 +5,5 @@ using Filebin.Shared.Misc.Services;
 
 namespace Filebin.Shared.LayeredWebApp.ApplicationLayer;
 
-public class TestCrudService(IRepository<TestEntity> repository, IUnitOfWork unitOfWork) 
+public class TestCrudService(IEntityRepository<TestEntity> repository, IUnitOfWork unitOfWork) 
 : CrudServiceBase<TestEntity, TestEntityResponse, CreateRequest, UpdateRequest>(repository, unitOfWork) {}

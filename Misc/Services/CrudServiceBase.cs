@@ -4,7 +4,7 @@ using Mapster;
 
 namespace Filebin.Shared.Misc.Services;
 
-public class CrudServiceBase<TEntity, TResponse, TCreateRequest, TUpdateRequest>(IRepository<TEntity> repository, IUnitOfWork unitOfWork) where TEntity: class, IEntity {
+public class CrudServiceBase<TEntity, TResponse, TCreateRequest, TUpdateRequest>(IEntityRepository<TEntity> repository, IUnitOfWork unitOfWork) where TEntity: class, IEntity {
     public virtual async Task<TResponse> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) {
         var entity = await repository.GetByIdOrThrow(id, cancellationToken);
         return entity.Adapt<TResponse>();

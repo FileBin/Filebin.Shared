@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Filebin.Shared.Misc.Repository;
 
 public abstract class CrudRepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class {
-    internal abstract DbSet<TEntity> GetDbSet();
+    protected abstract DbSet<TEntity> GetDbSet();
 
     public void Create(TEntity entity) {
         GetDbSet().Add(entity);
@@ -20,5 +20,12 @@ public abstract class CrudRepositoryBase<TEntity> : IRepository<TEntity> where T
 
     public async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken cancellationToken = default) {
         return await GetDbSet().AsNoTracking().ToListAsync(cancellationToken);
+    }
+
+    public async Task<IReadOnlyCollection<TEntity>> GetPageAsync(IPageDesc pageDesc, CancellationToken cancellationToken = default) {
+        return await GetDbSet()
+            .AsNoTracking()
+            .Paginate(pageDesc)
+            .ToListAsync(cancellationToken);
     }
 }
