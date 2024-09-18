@@ -1,5 +1,5 @@
 ﻿using Filebin.Shared.LayeredWebApp.InfrastructureLayer.Database;
-using Filebin.Shared.Misc;
+using Filebin.Shared.Misc.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Filebin.Shared.LayeredWebApp.InfrastructureLayer.Repository;
