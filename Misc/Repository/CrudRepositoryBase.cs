@@ -5,6 +5,7 @@ namespace Filebin.Shared.Misc.Repository;
 
 public abstract class CrudRepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class {
     protected abstract DbSet<TEntity> GetDbSet();
+    protected abstract IQueryable<TEntity> StartQuery();
 
     public void Create(TEntity entity) {
         GetDbSet().Add(entity);
@@ -19,12 +20,11 @@ public abstract class CrudRepositoryBase<TEntity> : IRepository<TEntity> where T
     }
 
     public async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken cancellationToken = default) {
-        return await GetDbSet().AsNoTracking().ToListAsync(cancellationToken);
+        return await StartQuery().ToListAsync(cancellationToken);
     }
 
     public async Task<IReadOnlyCollection<TEntity>> GetPageAsync(IPageDesc pageDesc, CancellationToken cancellationToken = default) {
-        return await GetDbSet()
-            .AsNoTracking()
+        return await StartQuery()
             .Paginate(pageDesc)
             .ToListAsync(cancellationToken);
     }
