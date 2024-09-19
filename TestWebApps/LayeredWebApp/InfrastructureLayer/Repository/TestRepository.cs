@@ -7,4 +7,5 @@ namespace Filebin.Shared.LayeredWebApp.InfrastructureLayer.Repository;
 
 internal class TestRepository(TestDbContext dbContext) : CrudRepositoryBase<TestEntity> {
     protected override DbSet<TestEntity> GetDbSet() => dbContext.Entities;
+    protected override IQueryable<TestEntity> StartQuery() => dbContext.Entities.AsNoTracking();
 }
