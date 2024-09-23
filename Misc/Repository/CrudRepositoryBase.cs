@@ -16,7 +16,7 @@ public abstract class CrudRepositoryBase<TEntity> : IRepository<TEntity> where T
     }
 
     public void Update(TEntity entity) {
-        GetDbSet().Entry(entity).State = EntityState.Modified;
+        GetDbSet().Update(entity);
     }
 
     public async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken cancellationToken = default) {
