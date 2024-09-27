@@ -3,29 +3,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Filebin.Shared.Misc.Repository;
 
-public abstract class CrudRepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class {
-    protected abstract DbSet<TEntity> GetDbSet();
-    protected abstract IQueryable<TEntity> StartQuery();
+public class CrudRepositoryBase<T>(IEntityAccessor<T> accessor, IEntityObtainer<T> obtainer) : IRepository<T> where T : class {
+    private readonly IEntityAccessor<T> accessor = accessor;
+    private IEntityObtainer<T> obtainer = obtainer;
 
-    public void Create(TEntity entity) {
-        GetDbSet().Add(entity);
+    public void UseObtainerAsDefault(IEntityObtainer<T> otherObtainer) {
+        obtainer = otherObtainer;
     }
 
-    public void Delete(TEntity entity) {
-        GetDbSet().Remove(entity);
+    protected IQueryable<T> Query => obtainer.StartQuery();
+    protected DbSet<T> DbSet => accessor.GetDbSet();
+
+    public void Create(T entity) {
+        DbSet.Add(entity);
     }
 
-    public void Update(TEntity entity) {
-        GetDbSet().Update(entity);
+    public void Delete(T entity) {
+        DbSet.Remove(entity);
     }
 
-    public async Task<IReadOnlyCollection<TEntity>> GetAllAsync(CancellationToken cancellationToken = default) {
-        return await StartQuery().ToListAsync(cancellationToken);
+    public void Update(T entity) {
+        DbSet.Update(entity);
     }
 
-    public async Task<IReadOnlyCollection<TEntity>> GetPageAsync(IPageDesc pageDesc, CancellationToken cancellationToken = default) {
-        return await StartQuery()
-            .Paginate(pageDesc)
-            .ToListAsync(cancellationToken);
+    public async Task<IReadOnlyCollection<T>> GetAllAsync(CancellationToken cancellationToken = default) {
+        return await Query.ToListAsync(cancellationToken);
+    }
+
+    public async Task<IReadOnlyCollection<T>> GetPageAsync(IPageDesc pageDesc, CancellationToken cancellationToken = default) {
+        return await Query.Paginate(pageDesc).ToListAsync(cancellationToken);
     }
 }
