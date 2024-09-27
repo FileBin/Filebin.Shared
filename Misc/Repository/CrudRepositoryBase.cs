@@ -3,16 +3,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Filebin.Shared.Misc.Repository;
 
-public class CrudRepositoryBase<T>(IEntityAccessor<T> accessor, IEntityObtainer<T> obtainer) : IRepository<T> where T : class {
-    private readonly IEntityAccessor<T> accessor = accessor;
-    private IEntityObtainer<T> obtainer = obtainer;
+public class CrudRepositoryBase<T>(IEntityAccessor accessor, IEntityObtainer obtainer) : IRepository<T> where T : class {
+    private readonly IEntityAccessor accessor = accessor;
+    private IEntityObtainer obtainer = obtainer;
 
-    public void UseObtainerAsDefault(IEntityObtainer<T> otherObtainer) {
+    public void UseObtainerAsDefault(IEntityObtainer otherObtainer) {
         obtainer = otherObtainer;
     }
 
-    protected IQueryable<T> Query => obtainer.StartQuery();
-    protected DbSet<T> DbSet => accessor.GetDbSet();
+    protected IQueryable<T> Query => obtainer.StartQuery<T>();
+    protected DbSet<T> DbSet => accessor.GetDbSet<T>();
 
     public void Create(T entity) {
         DbSet.Add(entity);

@@ -1,5 +1,5 @@
 namespace Filebin.Shared.Domain.Abstractions;
 
-public interface IEntityObtainer<out T> where T : class {
-    IQueryable<T> StartQuery();
+public interface IEntityObtainer  {
+    IQueryable<T> StartQuery<T>() where T : class;
 }

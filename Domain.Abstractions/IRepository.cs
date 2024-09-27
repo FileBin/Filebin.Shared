@@ -1,7 +1,7 @@
 ﻿namespace Filebin.Shared.Domain.Abstractions;
 
 public interface IRepository<T> where T : class {
-    void UseObtainerAsDefault(IEntityObtainer<T> otherObtainer);
+    void UseObtainerAsDefault(IEntityObtainer otherObtainer);
 
     Task<IReadOnlyCollection<T>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<IReadOnlyCollection<T>> GetPageAsync(IPageDesc pageDesc, CancellationToken cancellationToken = default);
