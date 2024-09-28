@@ -1,11 +1,8 @@
-using Microsoft.EntityFrameworkCore;
 using Filebin.Shared.Misc.Repository;
-using Filebin.Shared.LayeredWebApp.InfrastructureLayer.Database;
 using Filebin.Shared.LayeredWebApp.DomainLayer;
+using Filebin.Shared.Domain.Abstractions;
 
 namespace Filebin.Shared.LayeredWebApp.InfrastructureLayer.Repository;
 
-internal class TestRepository(TestDbContext dbContext) : CrudRepositoryBase<TestEntity> {
-    protected override DbSet<TestEntity> GetDbSet() => dbContext.Entities;
-    protected override IQueryable<TestEntity> StartQuery() => dbContext.Entities.AsNoTracking();
+internal class TestRepository(IEntityAccessor accessor, IEntityObtainer obtainer) : CrudRepositoryBase<TestEntity>(accessor, obtainer) {
 }

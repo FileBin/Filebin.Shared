@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Filebin.Shared.Misc.Repository;
 
-public abstract class EntityCrudRepositoryBase<T>(IEntityAccessor<T> accessor, IEntityObtainer<T> obtainer) 
+public abstract class EntityCrudRepositoryBase<T>(IEntityAccessor accessor, IEntityObtainer obtainer) 
 : CrudRepositoryBase<T>(accessor, obtainer), IEntityRepository<T>
 where T : class, IEntity {
     public Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) {

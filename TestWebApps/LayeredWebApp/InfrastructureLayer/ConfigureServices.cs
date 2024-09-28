@@ -4,7 +4,6 @@ using Filebin.Shared.LayeredWebApp.InfrastructureLayer.Repository;
 using Filebin.Shared.Misc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Filebin.Shared.LayeredWebApp.ApplicationLayer;
@@ -13,6 +12,8 @@ public static class ConfigureServices {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services) {
         services.AddDbContext<TestDbContext>();
         services.AddRepositoriesFromAssembly(typeof(TestDbContext).Assembly);
+        services.AddScoped<IEntityAccessor, EntityAccessor>();
+        services.AddScoped<IEntityObtainer, EntityAccessor>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
